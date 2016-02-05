@@ -2,11 +2,14 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
 /**
+ * RLNetwork
  *
+ * @author Caleb Hiebert
+ * @version 0.1
  */
 public class RLNetwork {
 
-    public static final int CHUNK_SIZE = 32;
+    public static final int PORT = 25456;
 
     public static void registerClasses(EndPoint endPoint) {
         Kryo kryo = endPoint.getKryo();

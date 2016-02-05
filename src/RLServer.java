@@ -1,28 +1,24 @@
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Random;
 
 /**
+ * RLServer
  *
+ * @author Caleb Hiebert
+ * @version 0.1
  */
-public class RLServer {
+public abstract class RLServer {
 
     private Server server;
-
-    int tcpPort;
-    int udpPort;
 
     Hashtable<Connection, User> users = new Hashtable<>();
 
     static int currentID = 0;
 
-    public RLServer(int tcpPort, int udpPort) throws IOException {
-        this.tcpPort = tcpPort;
-        this.udpPort = udpPort;
+    public RLServer() throws IOException {
 
         server = new Server();
 
@@ -30,9 +26,9 @@ public class RLServer {
 
         System.out.println("> Server Started");
 
-        server.bind(this.tcpPort, this.udpPort);
+        server.bind(RLNetwork.PORT, RLNetwork.PORT);
 
-        System.out.println("> Server Bound to port " + tcpPort);
+        System.out.println("> Server Bound to port " + RLNetwork.PORT);
 
         server.addListener(new Listener() {
             @Override
@@ -85,20 +81,6 @@ public class RLServer {
         return server;
     }
 
-    public byte[][] getChunk(int x, int y) {
-        byte[][] rChunk = new byte[RLNetwork.CHUNK_SIZE][RLNetwork.CHUNK_SIZE];
-
-        Random r = new Random(x * y);
-
-        for (int i = 0; i < RLNetwork.CHUNK_SIZE; i++) {
-            for (int j = 0; j < RLNetwork.CHUNK_SIZE; j++) {
-                rChunk[i][j] = (byte) r.nextInt(2);
-            }
-        }
-
-        return rChunk;
-    }
-
     public AuthResponse authenticate(String name, String password, Connection connection) {
 
         User newUser = new User();
@@ -116,11 +98,5 @@ public class RLServer {
         return response;
     }
 
-    public int getTcpPort() {
-        return tcpPort;
-    }
-
-    public int getUdpPort() {
-        return udpPort;
-    }
+    public abstract byte[][] getChunk(int x, int y);
 }

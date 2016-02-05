@@ -5,24 +5,22 @@ import com.esotericsoftware.kryonet.Listener;
 import java.io.IOException;
 
 /**
+ * RLClient
  *
+ * @author Caleb Hiebert
+ * @version 0.1
  */
-public class RLClient {
+public abstract class RLClient {
 
     private Client client;
     private String host;
-
-    private int tcpPort;
-    private int udpPort;
 
     private boolean initialized;
 
     private int localID;
 
-    public RLClient(String host, int tcpPort, int udpPort) throws IOException {
+    public RLClient(String host) throws IOException {
         this.host = host;
-        this.tcpPort = tcpPort;
-        this.udpPort = udpPort;
 
         client = new Client();
         client.start();
@@ -56,21 +54,14 @@ public class RLClient {
                         System.out.print("> There was an error authenticating! " + response.serverResponse);
                     }
                 } if (o instanceof Chunk) {
-                    String block = "";
+                    Chunk c = (Chunk) o;
 
-                    for (byte[] arr : ((Chunk)o).chunkData) {
-                        for (byte b : arr) {
-                            block += b;
-                        }
-                        block += "\n";
-                    }
-
-                    System.out.print(block);
+                    chunkReceived(c.x, c.y, c.chunkData);
                 } if (o instanceof PositionUpdate) {
                     PositionUpdate positionUpdate = (PositionUpdate) o;
 
                     if(positionUpdate.playerID != localID) {
-                        //move the stuff
+                        positionUpdate(positionUpdate.playerID, positionUpdate.positionX, positionUpdate.positionY);
                     }
                 }
             }
@@ -78,7 +69,7 @@ public class RLClient {
 
         RLNetwork.registerClasses(client);
 
-        client.connect(5000, host, tcpPort, udpPort);
+        client.connect(5000, host, RLNetwork.PORT, RLNetwork.PORT);
     }
 
     public void sendPositionUpdate(int x, int y) {
@@ -119,11 +110,7 @@ public class RLClient {
         return host;
     }
 
-    public int getTcpPort() {
-        return tcpPort;
-    }
+    public abstract void chunkReceived(int x, int y, byte[][] chunkData);
 
-    public int getUdpPort() {
-        return udpPort;
-    }
+    public abstract void positionUpdate(int playerID, int x, int y);
 }
