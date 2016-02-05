@@ -10,6 +10,11 @@ public class RLNetwork {
         Kryo kryo = endPoint.getKryo();
 
         kryo.register(PositionUpdate.class);
+        kryo.register(AuthRequest.class);
+        kryo.register(AuthResponse.class);
+        kryo.register(byte[][].class);
+        kryo.register(byte[].class);
+        kryo.register(byte.class);
     }
 }
 
@@ -28,12 +33,19 @@ class AuthResponse {
 }
 
 class User {
-    public String name;
-    int id;
+    private String name;
+    private int id;
 
     public int getId() {
         return id;
     }
 
-    
+    public String getName() {
+        return name;
+    }
+}
+
+class Chunk {
+    public int x, y;
+    public byte[][] chunkData;
 }
