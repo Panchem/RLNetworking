@@ -1,8 +1,10 @@
+package ca.panchem.rlnetworking;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
 /**
- * RLNetwork
+ * ca.panchem.rlnetworking.RLNetwork
  *
  * @author Caleb Hiebert
  * @version 0.1

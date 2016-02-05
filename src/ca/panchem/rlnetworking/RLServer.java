@@ -1,3 +1,5 @@
+package ca.panchem.rlnetworking;
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -5,7 +7,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 /**
- * RLServer
+ * ca.panchem.rlnetworking.RLServer
  *
  * @author Caleb Hiebert
  * @version 0.1

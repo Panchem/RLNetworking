@@ -1,3 +1,5 @@
+package ca.panchem.rlnetworking;
+
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -5,7 +7,7 @@ import com.esotericsoftware.kryonet.Listener;
 import java.io.IOException;
 
 /**
- * RLClient
+ * ca.panchem.rlnetworking.RLClient
  *
  * @author Caleb Hiebert
  * @version 0.1
@@ -89,7 +91,7 @@ public abstract class RLClient {
 
     public void requestChunk(int x, int y) {
         if(!initialized) {
-            System.out.println("Client is not authenticated yet! Chunk request will not be sent.");
+            System.out.println("Client is not authenticated yet! ca.panchem.rlnetworking.Chunk request will not be sent.");
             return;
         }
 
