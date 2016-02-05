@@ -6,6 +6,8 @@ import com.esotericsoftware.kryonet.EndPoint;
  */
 public class RLNetwork {
 
+    public static final int CHUNK_SIZE = 32;
+
     public static void registerClasses(EndPoint endPoint) {
         Kryo kryo = endPoint.getKryo();
 
@@ -15,37 +17,41 @@ public class RLNetwork {
         kryo.register(byte[][].class);
         kryo.register(byte[].class);
         kryo.register(byte.class);
+        kryo.register(ChunkRequest.class);
+        kryo.register(Chunk.class);
     }
 }
 
 class PositionUpdate {
-    public int positionX, positionY;
+    public int positionX, positionY, playerID;
 }
 
 class AuthRequest {
     public String name;
     public String password;
+
+    @Override
+    public String toString() {
+        return "[" + name + ", " + password + "]";
+    }
 }
 
 class AuthResponse {
     public boolean authSuccess;
+    public String serverResponse;
     public int playerID;
 }
 
 class User {
-    private String name;
-    private int id;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
+    public String name;
+    public int id;
 }
 
 class Chunk {
     public int x, y;
     public byte[][] chunkData;
+}
+
+class ChunkRequest {
+    public int x, y;
 }
